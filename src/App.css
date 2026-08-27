@@ -1,0 +1,607 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+}
+
+/* ─── Header ─────────────────────────────────────────────── */
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 28px;
+  position: relative;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.app__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app__title-main {
+  font-family: 'Space Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent-black);
+}
+
+.app__title-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--accent-orange);
+  background: var(--accent-orange-dim);
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+}
+
+.app__title-round {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Center Digital Arena LED Clock Plinth in Header */
+.app__header-clock-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+}
+
+.app__header-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app__header-btn {
+  padding: 6px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  display: inline-flex;
+  align-items: center;
+}
+
+.app__header-btn:hover {
+  background: var(--accent-black);
+  color: #ffffff;
+  border-color: var(--accent-black);
+  transform: translateY(-1px);
+}
+
+.app__header-btn--autoadvance {
+  border-color: rgba(0, 0, 0, 0.12);
+  color: var(--text-secondary);
+}
+
+.app__header-btn--autoadvance.active {
+  background: #fff4d9;
+  border-color: var(--accent-gold);
+  color: #a06b00;
+  box-shadow: 0 2px 8px rgba(201, 138, 12, 0.15);
+}
+
+.app__header-btn--autoadvance.active:hover {
+  background: var(--accent-black);
+  border-color: var(--accent-black);
+  color: #ffffff;
+}
+
+.app__header-btn--reset:hover {
+  background: #ff3b30;
+  border-color: #ff3b30;
+  color: #ffffff;
+}
+
+/* ─── 3-Column Arena Grid (Enlarged Center Canvas) ───────── */
+
+.app__arena-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 280px minmax(660px, 1fr) 330px;
+  gap: clamp(16px, 2vw, 32px);
+  padding: 16px 24px;
+  position: relative;
+  z-index: 5;
+  align-items: center;
+  max-width: 1720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app__column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  z-index: 5;
+}
+
+/* ─── Left Column (Battle Log & Resonance) ───────────────── */
+
+.app__column--left {
+  align-self: stretch;
+  justify-content: flex-start;
+}
+
+/* ─── Center Column (Elevated Folio Plinth Canvas) ───────── */
+
+.app__column--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ─── Right Column (Lead Call Panel / Turn Status) ───────── */
+
+.app__column--right {
+  align-self: flex-start;
+}
+
+/* ─── Player Stacks (Above Arena Plinth) ─────────────────── */
+
+.app__players {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+  max-width: clamp(660px, 56vw, 840px);
+  z-index: 8;
+}
+
+/* ─── Arena Canvas Plinth (Enlarged for Full Cards) ─────── */
+
+.app__arena-canvas {
+  position: relative;
+  width: 100%;
+  max-width: clamp(660px, 56vw, 840px);
+  min-height: clamp(480px, 38vw, 580px);
+  background: #ffffff;
+  border-radius: 22px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    -2px -2px 6px rgba(255, 255, 255, 0.95),
+    0 18px 44px rgba(0, 0, 0, 0.09),
+    0 36px 90px rgba(0, 0, 0, 0.07);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app__canvas-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 32px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.02) 0%,
+    rgba(0, 0, 0, 0.08) 20%,
+    rgba(0, 0, 0, 0.08) 80%,
+    rgba(0, 0, 0, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+/* ─── Conflict Status Header ─────────────────────────────── */
+
+.app__battle-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: #f8f7f4;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 4px 14px;
+  border-radius: 20px;
+}
+
+.app__battle-status-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--accent-orange);
+  letter-spacing: 0.1em;
+}
+
+.app__battle-status-stat {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.app__battle-status-stat strong {
+  color: var(--accent-black);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Table Cards Centered Row ───────────────────────────── */
+
+.app__table-cards-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 3.5vw, 44px);
+  width: 100%;
+}
+
+.app__table-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.app__table-owner-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f4f3ef;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.app__table-owner-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+.app__table-slot--active .app__table-owner-dot {
+  background: var(--accent-orange);
+  box-shadow: 0 0 6px rgba(255, 77, 18, 0.6);
+}
+
+.app__table-owner {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Table Placeholder ──────────────────────────────────── */
+
+.app__table-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.5;
+}
+
+.app__table-placeholder-card {
+  width: 140px;
+  height: 220px;
+  border: 2px dashed rgba(0, 0, 0, 0.15);
+  border-radius: 14px;
+  background: #fafaf8;
+}
+
+.app__table-placeholder-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ─── Reveal Off Phase ───────────────────────────────────── */
+
+.app__reveal-off {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.app__reveal-off-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(0, 0, 0, 0.08);
+  border-top-color: var(--accent-orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.app__reveal-off-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
+/* ─── Lead Status Card (When Not Active Turn) ────────────── */
+
+.app__lead-status-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.app__lead-status-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app__lead-status-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-orange);
+  background: var(--accent-orange-dim);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.app__lead-status-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.app__lead-status-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ─── Hot Seat Pass Screen ───────────────────────────────── */
+
+.app__pass-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(22, 22, 24, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: fadeIn 0.25s ease;
+}
+
+.app__pass-content {
+  background: #ffffff;
+  padding: 36px 44px;
+  border-radius: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.app__pass-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent-orange);
+  background: var(--accent-orange-dim);
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+.app__pass-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.app__pass-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.app__pass-btn {
+  padding: 12px 28px;
+  background: var(--accent-black);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.app__pass-btn:hover {
+  background: var(--accent-orange);
+  transform: translateY(-1px);
+}
+
+.app__header-btn--sound {
+  font-size: 13px;
+  padding: 5px 8px;
+}
+
+.app__header-btn--sound.muted {
+  opacity: 0.6;
+  filter: grayscale(1);
+}
+
+/* ─── Resonance Tie Banner ───────────────────────────────── */
+
+.app__resonance-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1.5px solid rgba(139, 92, 246, 0.4);
+  color: #7c3aed;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+  animation: pulse-resonance 1.5s ease-in-out infinite;
+}
+
+.app__resonance-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  box-shadow: 0 0 10px #8b5cf6;
+}
+
+@keyframes pulse-resonance {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.03); opacity: 0.85; }
+}
+
+/* ─── Quick Round Action ─────────────────────────────────── */
+
+.app__round-result-action {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+  z-index: 10;
+}
+
+.app__continue-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-black);
+  color: #ffffff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app__continue-btn:hover {
+  background: var(--accent-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 77, 18, 0.35);
+}
+
+.app__kbd-hint {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Keyframe Animations ────────────────────────────────── */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 1280px) {
+  .app__arena-grid {
+    grid-template-columns: 240px 1fr 280px;
+    gap: 16px;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 1020px) {
+  .app__header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .app__header-clock-center {
+    position: static;
+    transform: none;
+    order: 3;
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  .app__arena-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .app__column--left {
+    order: 2;
+  }
+
+  .app__column--center {
+    order: 1;
+  }
+
+  .app__column--right {
+    order: 3;
+  }
+}

@@ -1,0 +1,485 @@
+/* ─── Win Screen Modal Overlay ───────────────────────────── */
+
+.win-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.win-screen__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 22, 24, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: win-fade 0.3s ease;
+}
+
+.win-screen__modal {
+  position: relative;
+  z-index: 2;
+  background: #ffffff;
+  border-radius: 24px;
+  max-width: 520px;
+  width: 100%;
+  padding: 32px 36px 36px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    -2px -2px 6px rgba(255, 255, 255, 0.9),
+    0 16px 40px rgba(0, 0, 0, 0.16),
+    0 32px 80px rgba(0, 0, 0, 0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 22px;
+  animation: win-scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.win-screen__plinth-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-orange), var(--accent-gold));
+}
+
+/* ─── Victory Emblem ─────────────────────────────────────── */
+
+.win-screen__emblem-wrap {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.win-screen__emblem-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-gold-glow) 0%, transparent 70%);
+  animation: emblem-pulse 2.5s infinite ease-in-out;
+}
+
+.win-screen__emblem {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff8e8;
+  border: 2px solid var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(201, 138, 12, 0.25);
+}
+
+/* ─── Header & Typography ────────────────────────────────── */
+
+.win-screen__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.win-screen__meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent-orange);
+  background: var(--accent-orange-dim);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.win-screen__meta-dot {
+  font-size: 8px;
+  opacity: 0.6;
+}
+
+.win-screen__title {
+  font-family: 'Space Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 4px 0 0;
+  letter-spacing: 0.02em;
+}
+
+.win-screen__subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  max-width: 400px;
+  margin: 0;
+}
+
+/* ─── Metrics Grid ───────────────────────────────────────── */
+
+.win-screen__metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.win-screen__metric-card {
+  background: #f8f7f4;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.win-screen__metric-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.win-screen__metric-val {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.win-screen__metric-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.win-screen__metric-denom {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.win-screen__metric-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.win-screen__metric-fill {
+  height: 100%;
+  background: var(--accent-orange);
+  border-radius: 2px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.win-screen__metric-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ─── Standings Board ────────────────────────────────────── */
+
+.win-screen__standings {
+  width: 100%;
+  background: #fbfbf9;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.win-screen__standings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.win-screen__standings-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+
+.win-screen__standings-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.win-screen__standings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.win-screen__player-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.win-screen__player-row--winner {
+  border-color: rgba(201, 138, 12, 0.4);
+  background: #fffdf7;
+  box-shadow: 0 2px 8px rgba(201, 138, 12, 0.12);
+}
+
+.win-screen__player-rank {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.win-screen__crown {
+  color: var(--accent-gold);
+  font-size: 14px;
+}
+
+.win-screen__player-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.win-screen__player-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.win-screen__player-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.win-screen__ai-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  color: #0284c7;
+  background: rgba(2, 132, 199, 0.12);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.win-screen__winner-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--accent-gold);
+  background: #fff4d9;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.08em;
+}
+
+.win-screen__elim-pill {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.win-screen__player-subtrack {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.win-screen__player-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.win-screen__player-fill {
+  height: 100%;
+  background: var(--accent-black);
+  border-radius: 2px;
+}
+
+.win-screen__player-row--winner .win-screen__player-fill {
+  background: var(--accent-gold);
+}
+
+.win-screen__player-pct {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--text-muted);
+  width: 28px;
+  text-align: right;
+}
+
+.win-screen__player-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.win-screen__score-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.win-screen__score-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* ─── Actions ────────────────────────────────────────────── */
+
+.win-screen__actions {
+  width: 100%;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.win-screen__play-again-btn {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 14px;
+  background: var(--accent-black);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  border: none;
+}
+
+.win-screen__play-again-btn:hover {
+  background: var(--accent-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 77, 18, 0.35);
+}
+
+.win-screen__play-again-btn:active {
+  transform: translateY(0);
+}
+
+.win-screen__reset-btn {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: #f6f5f0;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+}
+
+.win-screen__reset-btn:hover {
+  background: #ffffff;
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+/* ─── Keyframe Animations ────────────────────────────────── */
+
+@keyframes win-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes win-scale-up {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes emblem-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 540px) {
+  .win-screen__modal {
+    padding: 24px 20px 28px;
+  }
+  
+  .win-screen__metrics {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,99 @@
+.game-matrix-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+  padding: 20px;
+}
+
+.game-matrix-board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  gap: clamp(8px, 1.4vmin, 16px);
+  /* Proportionally expanded to fit dual-card combat arena */
+  width: min(94vmin, 960px);
+  height: min(94vmin, 960px);
+  position: relative;
+  user-select: none;
+}
+
+/* ─── Perimeter Embossed Tiles ──────────────────────────── */
+
+.game-matrix__tile {
+  background: var(--mat-tile);
+  border-radius: clamp(3px, 0.8vmin, 6px);
+  position: relative;
+  aspect-ratio: 1 / 1;
+  box-shadow: 
+    -1.5px -1.5px 3px rgba(255, 255, 255, 0.95),
+    inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.8),
+    inset -0.5px -0.5px 1px rgba(0, 0, 0, 0.05),
+    2px 3px 6px rgba(0, 0, 0, 0.06),
+    4px 8px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.game-matrix__tile-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(0, 0, 0, 0.02) 100%);
+  pointer-events: none;
+}
+
+/* ─── Central Elevated Slab / Folio Plinth ──────────────── */
+
+.game-matrix__center-slab {
+  grid-area: 2 / 2 / 5 / 5;
+  background: var(--mat-center);
+  border-radius: clamp(6px, 1.4vmin, 12px);
+  position: relative;
+  z-index: 2;
+  box-shadow: 
+    -2px -2px 6px rgba(255, 255, 255, 0.95),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.9),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.04),
+    4px 6px 18px rgba(0, 0, 0, 0.07),
+    12px 24px 48px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  overflow: hidden;
+}
+
+/* The tactile left monograph spine crease from gamematrix.png */
+.game-matrix__slab-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(8px, 1.6vmin, 16px);
+  width: 2px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.6));
+  box-shadow: 
+    -1px 0 2px rgba(0, 0, 0, 0.06),
+    1px 0 1px rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.game-matrix__slab-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .game-matrix-wrapper {
+    padding: 10px;
+  }
+  
+  .game-matrix-board {
+    width: 98vmin;
+    height: 98vmin;
+    gap: 1vmin;
+  }
+}

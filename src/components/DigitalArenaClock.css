@@ -1,0 +1,152 @@
+/* ─── Digital Arena LED Clock Plinth ──────────────────────── */
+
+.digital-arena-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.digital-arena-clock__bezel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #121215;
+  background: linear-gradient(180deg, #18181c 0%, #0d0d10 100%);
+  padding: 8px 16px 8px 14px;
+  border-radius: 14px;
+  border: 1.5px solid #282830;
+  box-shadow: 
+    0 4px 14px rgba(0, 0, 0, 0.22),
+    0 8px 24px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* ─── Left Sub-Tag ───────────────────────────────────────── */
+
+.digital-arena-clock__left-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.digital-arena-clock__mode-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+/* ─── Main 7-Segment Digital Readout ─────────────────────── */
+
+.digital-arena-clock__main-digits {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  color: #ffffff;
+  font-family: 'Space Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 
+    0 0 6px rgba(255, 255, 255, 0.6),
+    0 0 14px rgba(255, 255, 255, 0.25);
+}
+
+.digital-arena-clock__digit {
+  display: inline-block;
+  min-width: 32px;
+  text-align: center;
+}
+
+.digital-arena-clock__colon {
+  display: inline-block;
+  margin: 0 1px;
+  transform: translateY(-2px);
+  transition: opacity 0.15s ease;
+}
+
+.digital-arena-clock__colon.visible {
+  opacity: 1;
+}
+
+.digital-arena-clock__colon.dim {
+  opacity: 0.25;
+}
+
+/* ─── Vertical Hairline Separator ────────────────────────── */
+
+.digital-arena-clock__separator {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Right Telemetry Column ─────────────────────────────── */
+
+.digital-arena-clock__telemetry {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: right;
+  min-width: 38px;
+}
+
+.digital-arena-clock__telem-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.digital-arena-clock__telem-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.4);
+}
+
+.digital-arena-clock__telem-val--phase {
+  color: var(--accent-orange, #ff4d12);
+  text-shadow: 0 0 6px rgba(255, 77, 18, 0.5);
+}
+
+.digital-arena-clock__telem-unit {
+  font-size: 7px;
+  opacity: 0.7;
+  margin-left: 1px;
+}
+
+.digital-arena-clock__telem-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 6.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+/* ─── Responsive Scaling ─────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .digital-arena-clock__bezel {
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  
+  .digital-arena-clock__main-digits {
+    font-size: 20px;
+  }
+  
+  .digital-arena-clock__digit {
+    min-width: 24px;
+  }
+}

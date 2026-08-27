@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
+
+/* ─── CSS Reset & Base ───────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Architectural Monograph Color Tokens (derived from gamematrix.png & Litema plates) */
+  --bg-primary: #e6e4de;
+  --bg-secondary: #dedad2;
+  --bg-surface: #f4f3ef;
+  
+  --mat-base: #e4e1db;
+  --mat-tile: #ededeb;
+  --mat-center: #f7f6f2;
+  
+  --text-primary: #18181a;
+  --text-secondary: #585754;
+  --text-muted: #8e8d88;
+  
+  --accent-orange: #ff4d12;
+  --accent-orange-dim: rgba(255, 77, 18, 0.12);
+  --accent-gold: #c98a0c;
+  --accent-gold-glow: rgba(201, 138, 12, 0.35);
+  --accent-black: #111113;
+  
+  /* Matrix Paper Elevation Shadows */
+  --shadow-tile: 
+    -1.5px -1.5px 3px rgba(255, 255, 255, 0.95),
+    2px 3px 6px rgba(0, 0, 0, 0.08),
+    4px 8px 14px rgba(0, 0, 0, 0.06);
+    
+  --shadow-tile-hover:
+    -2px -2px 4px rgba(255, 255, 255, 0.95),
+    3px 6px 12px rgba(0, 0, 0, 0.12),
+    6px 14px 22px rgba(0, 0, 0, 0.08);
+
+  --shadow-center-slab:
+    -2px -2px 6px rgba(255, 255, 255, 0.95),
+    6px 10px 24px rgba(0, 0, 0, 0.12),
+    14px 24px 48px rgba(0, 0, 0, 0.1);
+
+  --shadow-card:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 16px 32px rgba(0, 0, 0, 0.12);
+
+  --shadow-card-elevated:
+    0 10px 24px rgba(0, 0, 0, 0.14),
+    0 24px 48px rgba(0, 0, 0, 0.2);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* Proportionally Enlarged Card Dimensions (Exact 1:1.625 Die-Cut Ratio) */
+  --card-width: clamp(225px, 18.5vw, 280px);
+  --card-height: calc(var(--card-width) * (460.6 / 283.5));
+
+  /* Animation durations */
+  --flip-duration: 0.65s;
+  --transition-fast: 0.15s;
+  --transition-normal: 0.25s;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.5) 0%, rgba(220, 216, 208, 0.2) 100%),
+    radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0);
+  background-size: 100% 100%, 24px 24px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ─── Global Utilities ───────────────────────────────────── */
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input {
+  font-family: inherit;
+}
+
+a {
+  color: var(--accent-orange);
+  text-decoration: none;
+}
+
+/* Custom Scrollbar for architectural editorial feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
