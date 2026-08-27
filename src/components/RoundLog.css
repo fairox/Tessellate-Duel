@@ -84,3 +84,19 @@
   font-family: 'Inter', sans-serif;
   color: var(--text-secondary);
 }
+
+@media (max-width: 640px) {
+  .round-log {
+    min-height: 140px;
+    max-height: 200px;
+  }
+
+  .round-log__header {
+    padding: 8px 12px;
+  }
+
+  .round-log__scroll {
+    padding: 8px 12px;
+  }
+}
+

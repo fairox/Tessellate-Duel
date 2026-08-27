@@ -62,7 +62,7 @@
   --space-xl: 40px;
 
   /* Proportionally Enlarged Card Dimensions (Exact 1:1.625 Die-Cut Ratio) */
-  --card-width: clamp(225px, 18.5vw, 280px);
+  --card-width: clamp(140px, 42vw, 280px);
   --card-height: calc(var(--card-width) * (460.6 / 283.5));
 
   /* Animation durations */

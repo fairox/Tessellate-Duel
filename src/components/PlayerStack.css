@@ -178,3 +178,35 @@
   border-radius: 2px;
   transition: width 0.4s ease;
 }
+
+@media (max-width: 640px) {
+  .player-stack {
+    min-width: 130px;
+    padding: 6px 10px;
+    gap: 8px;
+    border-radius: 10px;
+  }
+
+  .player-stack__name {
+    font-size: 11px;
+  }
+
+  .player-stack__deck-wrapper {
+    width: 32px;
+    height: 42px;
+  }
+
+  .player-stack__deck {
+    width: 26px;
+    height: 36px;
+  }
+
+  .player-stack__count-badge {
+    width: 17px;
+    height: 17px;
+    font-size: 8.5px;
+    bottom: -3px;
+    right: -3px;
+  }
+}
+

@@ -578,6 +578,7 @@
   .app__header {
     flex-wrap: wrap;
     gap: 10px;
+    padding: 10px 16px;
   }
   
   .app__header-clock-center {
@@ -585,12 +586,13 @@
     transform: none;
     order: 3;
     width: 100%;
-    margin-top: 6px;
+    margin-top: 4px;
   }
 
   .app__arena-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
+    padding: 12px 12px 32px;
   }
 
   .app__column--left {
@@ -599,9 +601,124 @@
 
   .app__column--center {
     order: 1;
+    width: 100%;
   }
 
   .app__column--right {
     order: 3;
+    width: 100%;
+  }
+
+  .app__arena-canvas {
+    max-width: 100%;
+    min-height: auto;
+    padding: 20px 16px;
+  }
+
+  .app__players {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 }
+
+@media (max-width: 640px) {
+  .app__header {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .app__title {
+    gap: 6px;
+  }
+
+  .app__title-main {
+    font-size: 13px;
+  }
+
+  .app__title-badge {
+    display: none;
+  }
+
+  .app__title-round {
+    font-size: 10px;
+  }
+
+  .app__header-meta {
+    gap: 6px;
+  }
+
+  .app__header-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  .app__arena-grid {
+    padding: 8px 8px 24px;
+    gap: 14px;
+  }
+
+  .app__players {
+    gap: 8px;
+  }
+
+  .app__arena-canvas {
+    padding: 14px 10px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .app__canvas-seam {
+    left: 12px;
+  }
+
+  .app__battle-status-bar {
+    margin-bottom: 10px;
+    padding: 3px 10px;
+  }
+
+  .app__battle-status-tag {
+    font-size: 8px;
+  }
+
+  .app__battle-status-stat {
+    font-size: 10px;
+  }
+
+  .app__table-cards-row {
+    gap: 12px;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .app__table-slot {
+    gap: 6px;
+  }
+
+  .app__table-owner-badge {
+    padding: 2px 7px;
+  }
+
+  .app__table-owner {
+    font-size: 9px;
+  }
+
+  .app__pass-content {
+    padding: 24px 20px;
+    width: 90%;
+    max-width: 340px;
+  }
+
+  .app__pass-text {
+    font-size: 15px;
+  }
+
+  .app__continue-btn {
+    padding: 10px 22px;
+    font-size: 13px;
+    width: 100%;
+    max-width: 260px;
+    justify-content: center;
+  }
+}
+

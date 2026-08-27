@@ -381,3 +381,36 @@
   0% { transform: scale(0.6); opacity: 0.8; }
   100% { transform: scale(2.2); opacity: 0; }
 }
+
+/* ─── Mobile Responsiveness ─────────────────────────────── */
+
+@media (max-width: 640px) {
+  .stat-call-panel {
+    max-width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  .stat-call-panel__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat-call-panel__btn {
+    padding: 8px 10px;
+  }
+
+  .stat-call-panel__btn-card-val {
+    font-size: 9.5px;
+  }
+
+  .stat-call-panel__btn-body {
+    gap: 6px;
+  }
+
+  .stat-call-panel__btn-name {
+    font-size: 9px;
+  }
+}
+
