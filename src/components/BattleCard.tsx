@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { BlockCard } from '../data/blocks';
 import type { Stat } from '../game/types';
 import { soundEngine } from '../utils/soundEngine';
+import { useHoloTilt } from '../hooks/useHoloTilt';
+import { cardBack, cardFront, foilMaskCss, holoTier } from '../utils/cardAssets';
+import { HoloLayers } from './HoloLayers';
+import { InspectCard } from './InspectCard';
+import { dustBurst } from '../utils/dustBus';
 import './BattleCard.css';
 
 interface BattleCardProps {
@@ -26,6 +32,42 @@ export const BattleCard: React.FC<BattleCardProps> = ({
   interactive = true,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [justRevealed, setJustRevealed] = useState(false);
+  const tier = holoTier(card);
+  const tiltRef = useHoloTilt<HTMLDivElement>({ enabled: interactive && isRevealed });
+  const wasRevealed = useRef(isRevealed);
+
+  // Turning a plate face-up: Limited plates get a light sweep and a chime
+  useEffect(() => {
+    if (isRevealed && !wasRevealed.current && tier === 'limited') {
+      soundEngine.playFoilShimmer();
+      setJustRevealed(true);
+      const t = setTimeout(() => setJustRevealed(false), 1700);
+      wasRevealed.current = isRevealed;
+      return () => clearTimeout(t);
+    }
+    wasRevealed.current = isRevealed;
+  }, [isRevealed, tier]);
+
+  // Escape closes the inspect view
+  useEffect(() => {
+    if (!showModal) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setShowModal(false);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [showModal]);
+
+  // Winning the round knocks pigment dust off the plate
+  useEffect(() => {
+    if (!isWinner) return;
+    const t = setTimeout(() => {
+      const el = tiltRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      dustBurst(r.left + r.width / 2, r.top + r.height * 0.45, 1.2);
+    }, 120);
+    return () => clearTimeout(t);
+  }, [isWinner, tiltRef]);
 
   const getComplexityLabel = (val: number) => {
     switch (val) {
@@ -101,85 +143,97 @@ export const BattleCard: React.FC<BattleCardProps> = ({
   return (
     <>
       <div
-        className={`battle-card battle-card--${size} ${isRevealed ? 'revealed' : ''} ${
-          isWinner ? 'winner' : ''
-        } ${interactive ? 'interactive' : ''}`}
-        style={{ animationDelay: `${animationDelay}ms` } as React.CSSProperties}
+        ref={tiltRef}
+        className={`battle-card battle-card--${size} holo holo--${tier} ${
+          isRevealed ? 'revealed' : ''
+        } ${isWinner ? 'battle-card--winner' : ''} ${interactive ? 'interactive' : ''} ${
+          justRevealed ? 'holo--just-revealed' : ''
+        }`}
+        style={
+          {
+            animationDelay: `${animationDelay}ms`,
+            '--foil-mask': foilMaskCss(card.id),
+          } as React.CSSProperties
+        }
       >
-        <div className="battle-card__inner">
-          {/* Back Face */}
-          <div className="battle-card__face battle-card__back">
-            <img
-              src={`/cards/${card.id}_back.png`}
-              alt={`${card.name} Back`}
-              className="battle-card__image"
-              loading="eager"
-            />
-            {playerName && (
-              <div className="battle-card__player-tag">
-                <span className="battle-card__player-dot" />
-                <span className="battle-card__player-name">{playerName}</span>
-              </div>
-            )}
-          </div>
-
-          {/* Front Face */}
-          <div className="battle-card__face battle-card__front">
-            <img
-              src={`/cards/${card.id}_front.png`}
-              alt={`${card.name} Front`}
-              className="battle-card__image"
-              loading="eager"
-            />
-
-            {/* Architectural Stat Highlight Badge (when stat is called) */}
-            {highlightStat && (
-              <div className={`battle-card__stat-callout battle-card__stat-callout--${highlightStat}`}>
-                <div className="battle-card__stat-header">
-                  <span className="battle-card__stat-icon">
-                    {getStatCalloutIcon(highlightStat)}
-                  </span>
-                  <span className="battle-card__stat-name">
-                    {getStatCalloutLabel(highlightStat)}
-                  </span>
+        <div className="holo__shadow" />
+        <div className="holo__tilt">
+          <div className="battle-card__inner">
+            {/* Back Face */}
+            <div className="battle-card__face battle-card__back">
+              <img
+                src={cardBack(card.id)}
+                alt={`${card.name} Back`}
+                className="battle-card__image"
+                loading="eager"
+              />
+              {playerName && (
+                <div className="battle-card__player-tag">
+                  <span className="battle-card__player-dot" />
+                  <span className="battle-card__player-name">{playerName}</span>
                 </div>
-                <div className="battle-card__stat-value">
-                  {getStatCalloutValue(highlightStat)}
+              )}
+            </div>
+
+            {/* Front Face */}
+            <div className="battle-card__face battle-card__front">
+              <img
+                src={cardFront(card.id)}
+                alt={`${card.name} Front`}
+                className="battle-card__image"
+                loading="eager"
+              />
+              <HoloLayers tier={tier} />
+
+              {/* Architectural Stat Highlight Badge (when stat is called) */}
+              {highlightStat && (
+                <div className={`battle-card__stat-callout battle-card__stat-callout--${highlightStat}`}>
+                  <div className="battle-card__stat-header">
+                    <span className="battle-card__stat-icon">
+                      {getStatCalloutIcon(highlightStat)}
+                    </span>
+                    <span className="battle-card__stat-name">
+                      {getStatCalloutLabel(highlightStat)}
+                    </span>
+                  </div>
+                  <div className="battle-card__stat-value">
+                    {getStatCalloutValue(highlightStat)}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Winner Badge Stamp */}
-            {isWinner && (
-              <div className="battle-card__winner-stamp">
-                <span>ROUND WINNER</span>
-              </div>
-            )}
+              {/* Winner Badge Stamp */}
+              {isWinner && (
+                <div className="battle-card__winner-stamp">
+                  <span>ROUND WINNER</span>
+                </div>
+              )}
 
-            {/* Inspect / Zoom Button */}
-            {interactive && (
-              <button
-                type="button"
-                className="battle-card__inspect-btn"
-                title="Inspect Card Details"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  soundEngine.playStatSelect();
-                  setShowModal(true);
-                }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-              </button>
-            )}
+              {/* Inspect / Zoom Button */}
+              {interactive && (
+                <button
+                  type="button"
+                  className="battle-card__inspect-btn"
+                  title="Inspect Card Details"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    soundEngine.playStatSelect();
+                    setShowModal(true);
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Card Inspection Modal */}
-      {showModal && (
+      {/* Card Inspection Modal — portalled so it covers the whole table */}
+      {showModal && createPortal(
         <div className="battle-card__modal-overlay" onClick={() => setShowModal(false)}>
           <div className="battle-card__modal-content" onClick={(e) => e.stopPropagation()}>
             <button
@@ -192,11 +246,7 @@ export const BattleCard: React.FC<BattleCardProps> = ({
 
             <div className="battle-card__modal-grid">
               <div className="battle-card__modal-visual">
-                <img
-                  src={`/cards/${card.id}_front.png`}
-                  alt={card.name}
-                  className="battle-card__modal-image"
-                />
+                <InspectCard card={card} />
               </div>
 
               <div className="battle-card__modal-details">
@@ -303,7 +353,8 @@ export const BattleCard: React.FC<BattleCardProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

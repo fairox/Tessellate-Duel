@@ -1,0 +1,10 @@
+.dust-field {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  /* Above the table so a win burst reads over the cards, below modals */
+  z-index: 40;
+  mix-blend-mode: multiply;
+}

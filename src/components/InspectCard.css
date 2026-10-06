@@ -1,0 +1,118 @@
+.inspect-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 0;
+  width: 100%;
+}
+
+.inspect-card__plate-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: min(100%, 300px);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.inspect-card__serial {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.inspect-card__stage {
+  position: relative;
+  width: min(100%, 300px);
+  aspect-ratio: 283.5 / 460.6;
+  perspective: 1100px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 18px;
+}
+
+.inspect-card__stage:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-orange-dim), 0 0 0 1.5px var(--accent-orange);
+}
+
+.inspect-card__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1);
+  border-radius: 18px;
+}
+
+.inspect-card__inner.is-back {
+  transform: rotateY(180deg);
+}
+
+.inspect-card__face {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.inspect-card__face--back {
+  transform: rotateY(180deg);
+}
+
+.inspect-card__face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.inspect-card__finish {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.inspect-card__finish-chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+}
+
+.inspect-card__finish-chip--rare {
+  color: #7a5410;
+  border-color: rgba(201, 138, 12, 0.55);
+  background: linear-gradient(115deg, #fbf3dc, #f3e1ac 50%, #fbf3dc);
+}
+
+.inspect-card__finish-chip--limited {
+  color: var(--text-primary);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
+    linear-gradient(120deg, #ff4d12, #f5b700, #3ccf8e, #19a7ce, #7b5cff, #e0479e) border-box;
+}
+
+.inspect-card__hint {
+  font-size: 11px;
+  color: var(--text-muted);
+}
