@@ -122,6 +122,10 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         return {
           ...newState,
           phase: 'round-result',
+          // Keep the battle on the table until the next round so players can
+          // see which plate won and on what stat (cleared by ADVANCE_ROUND)
+          revealedCards: result.revealedCards,
+          calledStat: state.calledStat,
           roundLog: [...state.roundLog, createLogEntry(state.currentRound, logMsg)],
         };
       } else {
@@ -188,7 +192,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           revealedCards: lastStepReveals,
           resonanceSteps: result.revealSteps,
           tiedPlayerIds: [],
-          calledStat: null,
+          calledStat: state.calledStat,
           roundLog: [...state.roundLog, createLogEntry(state.currentRound, logMsg)],
           phase: 'round-result',
         };

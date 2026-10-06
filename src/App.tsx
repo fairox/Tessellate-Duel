@@ -240,15 +240,11 @@ export default function App() {
       ? getSprintThreshold(state.players.length)
       : 40 - state.quarry.length;
 
-  // Find the winner of the current round for highlighting
+  // The round winner becomes the next lead, so in round-result the lead is the winner
   const roundWinnerId =
-    state.phase === 'round-result' || state.phase === 'revealing'
-      ? (() => {
-          if (!state.calledStat || state.revealedCards.length === 0) return null;
-          const maxVal = Math.max(...state.revealedCards.map((r) => r.card[state.calledStat!]));
-          const winners = state.revealedCards.filter((r) => r.card[state.calledStat!] === maxVal);
-          return winners.length === 1 ? winners[0].playerId : null;
-        })()
+    state.phase === 'round-result' &&
+    state.revealedCards.some((r) => r.playerId === state.leadPlayerId)
+      ? state.leadPlayerId
       : null;
 
   // Compute table cards

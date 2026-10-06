@@ -4,14 +4,17 @@ import './SetupScreen.css';
 import type { GameSettings, GameLengthMode, TieVariant, StatMode } from '../game/types';
 import type { PlayerSetupOption } from '../game/engine';
 import { soundEngine } from '../utils/soundEngine';
+import { BLOCKS } from '../data/blocks';
+import { useHoloTilt } from '../hooks/useHoloTilt';
+import { cardBack, cardFront, foilMaskCss, holoTier } from '../utils/cardAssets';
+import { HoloLayers } from './HoloLayers';
 
 interface SetupScreenProps {
   onStart: (players: PlayerSetupOption[], settings: GameSettings) => void;
 }
 
 interface ShowcaseCardProps {
-  frontImg: string;
-  backImg: string;
+  cardId: number;
   alt: string;
   delayIndex: number;
   globalSpinCount: number;
@@ -20,8 +23,7 @@ interface ShowcaseCardProps {
 }
 
 const ShowcaseCard: React.FC<ShowcaseCardProps> = ({
-  frontImg,
-  backImg,
+  cardId,
   alt,
   delayIndex,
   globalSpinCount,
@@ -36,32 +38,42 @@ const ShowcaseCard: React.FC<ShowcaseCardProps> = ({
   };
 
   const totalAngle = spinAngle + globalSpinCount * 360;
+  const frontImg = cardFront(cardId);
+  const backImg = cardBack(1);
+  const card = BLOCKS.find((b) => b.id === cardId);
+  const tier = card ? holoTier(card) : 'common';
+  const tiltRef = useHoloTilt<HTMLDivElement>({ maxTilt: 10 });
 
   return (
     <div
-      className={`setup-showcase__card-wrap ${
+      ref={tiltRef}
+      className={`setup-showcase__card-wrap holo holo--${tier} ${
         isPatternBack ? 'setup-showcase__card-wrap--pattern' : ''
       }`}
+      style={{ '--foil-mask': foilMaskCss(cardId) } as React.CSSProperties}
       onClick={handleCardClick}
       title="Click to spin / flip card"
     >
-      <div
-        className="setup-showcase__card-inner"
-        style={{
-          transform: `rotateY(${totalAngle}deg)`,
-          transitionDelay: `${delayIndex * 60}ms`,
-        }}
-      >
-        {/* Front Face */}
-        <div className="setup-showcase__card-face setup-showcase__card-face--front">
-          <img src={frontImg} alt={alt} className="setup-showcase__card-img" />
-          <div className="setup-showcase__card-flip-indicator">↺</div>
-        </div>
+      <div className="holo__tilt">
+        <div
+          className="setup-showcase__card-inner"
+          style={{
+            transform: `rotateY(${totalAngle}deg)`,
+            transitionDelay: `${delayIndex * 60}ms`,
+          }}
+        >
+          {/* Front Face */}
+          <div className="setup-showcase__card-face setup-showcase__card-face--front">
+            <img src={frontImg} alt={alt} className="setup-showcase__card-img" />
+            <HoloLayers tier={tier} />
+            <div className="setup-showcase__card-flip-indicator">↺</div>
+          </div>
 
-        {/* Back Face */}
-        <div className="setup-showcase__card-face setup-showcase__card-face--back">
-          <img src={backImg} alt={`${alt} Back`} className="setup-showcase__card-img" />
-          <div className="setup-showcase__card-flip-indicator">↺</div>
+          {/* Back Face */}
+          <div className="setup-showcase__card-face setup-showcase__card-face--back">
+            <img src={backImg} alt={`${alt} Back`} className="setup-showcase__card-img" />
+            <div className="setup-showcase__card-flip-indicator">↺</div>
+          </div>
         </div>
       </div>
     </div>
@@ -137,16 +149,14 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
         {/* ─── LEFT COLUMN ───────────────────────────────────── */}
         <div className="setup-showcase__col setup-showcase__col--left">
           <ShowcaseCard
-            frontImg="/cards/1_front.png"
-            backImg="/cards/1_back.png"
+            cardId={1}
             alt="01 Curved Furrows"
             delayIndex={0}
             globalSpinCount={globalSpinCount}
           />
 
           <ShowcaseCard
-            frontImg="/cards/2_front.png"
-            backImg="/cards/1_back.png"
+            cardId={2}
             alt="Litema Graphic Pattern"
             delayIndex={1}
             globalSpinCount={globalSpinCount}
@@ -154,8 +164,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
           />
 
           <ShowcaseCard
-            frontImg="/cards/4_front.png"
-            backImg="/cards/1_back.png"
+            cardId={4}
             alt="04 Stepped Serration"
             delayIndex={2}
             globalSpinCount={globalSpinCount}
@@ -165,8 +174,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
         {/* ─── CENTER COLUMN ─ */}
         <div className="setup-showcase__col setup-showcase__col--center">
           <ShowcaseCard
-            frontImg="/cards/11_front.png"
-            backImg="/cards/1_back.png"
+            cardId={11}
             alt="11 Four Point Star"
             delayIndex={3}
             globalSpinCount={globalSpinCount}
@@ -377,16 +385,14 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
           </div>
 
           <ShowcaseCard
-            frontImg="/cards/12_front.png"
-            backImg="/cards/1_back.png"
+            cardId={12}
             alt="12 Stepped Mountain Star"
             delayIndex={4}
             globalSpinCount={globalSpinCount}
           />
 
           <ShowcaseCard
-            frontImg="/cards/14_front.png"
-            backImg="/cards/1_back.png"
+            cardId={14}
             alt="14 Checkerboard Star"
             delayIndex={5}
             globalSpinCount={globalSpinCount}
@@ -396,16 +402,14 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
         {/* ─── RIGHT COLUMN ──────────────────────────────────── */}
         <div className="setup-showcase__col setup-showcase__col--right">
           <ShowcaseCard
-            frontImg="/cards/31_front.png"
-            backImg="/cards/1_back.png"
+            cardId={31}
             alt="31 Rotated Square Diamond"
             delayIndex={6}
             globalSpinCount={globalSpinCount}
           />
 
           <ShowcaseCard
-            frontImg="/cards/30_front.png"
-            backImg="/cards/1_back.png"
+            cardId={30}
             alt="Litema Graphic Pattern"
             delayIndex={7}
             globalSpinCount={globalSpinCount}
@@ -413,8 +417,7 @@ export const SetupScreen: React.FC<SetupScreenProps> = ({ onStart }) => {
           />
 
           <ShowcaseCard
-            frontImg="/cards/33_front.png"
-            backImg="/cards/1_back.png"
+            cardId={33}
             alt="33 Perspective Diamond"
             delayIndex={8}
             globalSpinCount={globalSpinCount}

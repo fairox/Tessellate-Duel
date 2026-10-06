@@ -251,6 +251,43 @@ class SoundEngine {
   }
 
   /**
+   * Foil Shimmer: a Limited (prismatic foil) plate turned face-up.
+   * Throttled so several limited cards flipping together read as one cue.
+   */
+  private lastShimmer = 0;
+
+  public playFoilShimmer() {
+    if (this.isMuted) return;
+    const ctx = this.getContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    if (now - this.lastShimmer < 0.4) return;
+    this.lastShimmer = now;
+
+    const start = now + 0.32; // land as the flip shows the face
+    [1567.98, 2093.0, 2637.02, 3135.96].forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t = start + idx * 0.045;
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, t);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.012, t + 0.4);
+
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.045, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 0.5);
+    });
+  }
+
+  /**
    * Match Champion / Victory Fanfare: Radiant triumphant major chords
    */
   public playVictory() {
